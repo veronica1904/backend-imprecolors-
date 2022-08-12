@@ -12,22 +12,20 @@ router.post('/user', cors(), async (req, res) => {
         return res.status(422).json({ err: err.array() });
     }
     let user = await User.findOne({ identity: req.body.identity })
-    if (user) return res.status(422).json({ error: 'Este usuario ya existe' });
+    if (user) return res.status(422).json({ message: 'Este usuario ya existe' });
+    const quantityUser = await User.countDocuments()
     //bcrypt
     const salt = await bcrypt.genSalt(10);
 
-    const hashPassword = await bcrypt.hash(req.body.password, salt);
-    // console.log(user, 'user')
-    // const generateNumberUser = () => {
-    //     if(user.user_number === 0) return `${(user.user_number + 1) + 'Impcolors' }`
-    // }
-    // console.log(generateNumberUser())
+    const password = req.body.password ? req.body.password : `${Math.floor(Math.random() * 100)}abc`   
 
+    const hashPassword = await bcrypt.hash(password, salt);
+  
     user = new User({
         address: req.body.address,
         landline: req.body.landline,
         phone: req.body.phone,
-        user_number: 1,
+        user_number: quantityUser + 1,
         profile_photo: req.body.profile_photo,
         surname:req.body.name,
         password: hashPassword, 
@@ -39,7 +37,7 @@ router.post('/user', cors(), async (req, res) => {
     });
     await user.save()
     const jwtToken = user.generateJWT();
-    if (user) {
+    if (user && req.body.password ) {
         res.status(201).header('Authorization', jwtToken).send({
             _id: user._id,
             token: jwtToken,
@@ -47,9 +45,17 @@ router.post('/user', cors(), async (req, res) => {
             active: true,
             
         });
-    } else {
+    }
+    else if (user && !req.body.password){
+        res.status(201).json({message: "usuario creado"})
+    }
+    else {
         return res.status(422).json({ error: 'Error al registrar usuario' });
     }
 });
 
+router.get('/user', cors(), async(req, res)=>{
+const listUser = await User.find()
+res.status(201).json(listUser)
+})
 module.exports = router
