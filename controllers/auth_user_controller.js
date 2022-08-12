@@ -10,7 +10,6 @@ router.post('/auth', async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
     }
-    console.log(req.body)
     let user = await User.findOne({ identity: req.body.users })
     if (!user) return res.status(400).send({ message: 'Usuario contraseña no son válidos' });
 
@@ -21,7 +20,6 @@ router.post('/auth', async (req, res) => {
         return res.status(400).send({ message: 'Su cuenta se encuentra deshabilitada.' })
     }
 
-console.log('user',user)
     const jwtToken = user.generateJWT();
     res.status(201).header('Authorization', jwtToken).send({
         _id: user._id,

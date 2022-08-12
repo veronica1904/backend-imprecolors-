@@ -4,6 +4,9 @@ const productSchema = new mongoose.Schema({
     code: {
         type: String,
     },
+    name:{
+        type: String
+    },
     description:{
         type: String,
     },
@@ -22,7 +25,10 @@ const productSchema = new mongoose.Schema({
     },
     id_provider_business : {
         type: mongoose.Schema.ObjectId // id del la empresa proveodora
-    }
+    },
+    iva :{
+        type: Number
+    },
    
 })
 
