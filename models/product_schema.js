@@ -23,9 +23,6 @@ const productSchema = new mongoose.Schema({
     quantity :{
         type: Number
     },
-    id_provider_business : {
-        type: mongoose.Schema.ObjectId // id del la empresa proveodora
-    },
     iva :{
         type: Number
     },
