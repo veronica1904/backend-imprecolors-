@@ -10,15 +10,18 @@ const providerSchema = new mongoose.Schema({
     surname_provider: {
         type: String,
     },
+    url_business:{
+        type: String,
+    },
     phone_provider: {
+        type: String,
+    },
+    nit:{
         type: String,
     },
     date_create: {
         type: Date,
         default: Date.now
-    },
-    id_business : {
-        type: mongoose.Schema.ObjectId // id del la empresa provedora(provider_business)
     }
    
 })
