@@ -18,7 +18,7 @@
         default: Date.now
     },
     quantity_product : {
-       
+      type: Number,
     }
    
 })
