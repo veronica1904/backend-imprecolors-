@@ -58,4 +58,9 @@ router.get('/user', cors(), async(req, res)=>{
 const listUser = await User.find()
 res.status(201).json(listUser)
 })
+
+router.get('/user/:id', cors(), async(req, res)=>{
+    const listUser = await User.findOne({_id: req.params.id})
+    res.status(201).json(listUser)
+    })
 module.exports = router

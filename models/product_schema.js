@@ -25,7 +25,11 @@ const productSchema = new mongoose.Schema({
     },
     iva :{
         type: Number
-    },
+    }, 
+    file: {
+        data: Buffer,
+        contentType: String
+    }
    
 })
 
